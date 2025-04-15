@@ -53,6 +53,28 @@ double calcularMedia(List<double> notas) {
   return soma / notas.length;
 }
 
+class Professor {
+  String nome;
+  String disciplina;
+
+  Professor(this.nome, this.disciplina);
+
+  void apresentar() {
+    print("Olá, meu nome é $nome e leciono $disciplina.");
+  }
+}
+
+class Historico {
+  List<double> notas;
+
+  Historico(this.notas);
+
+  bool aprovado() {
+    double media = calcularMedia(notas);
+    return media >= 7.0;
+  }
+}
+
 void main() {
   group('Testes de Número perfeito', () {
     test('Número perfeito 6', () {
@@ -98,6 +120,26 @@ void main() {
     });
     test('Lista de notas vazia deve lançar erro', () {
       expect(() => calcularMedia([]), throwsArgumentError);
+    });
+  });
+
+  group('Testes de Professor', () {
+    test('Criação de Professor', () {
+      var professor = Professor('Gabriel', 'Matemática');
+      expect(professor.nome, equals('Gabriel'));
+      expect(professor.disciplina, equals('Matemática'));
+    });
+  });
+
+  group('Testes de Histórico', () {
+    test('Aluno aprovado', () {
+      var historico = Historico([8.0, 7.5, 9.0]);
+      expect(historico.aprovado(), isTrue);
+    });
+
+    test('Aluno reprovado', () {
+      var historico = Historico([5.0, 6.0, 4.5]);
+      expect(historico.aprovado(), isFalse);
     });
   });
 }
